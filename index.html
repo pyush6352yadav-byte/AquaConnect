@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AquaConnect –
+   Smart Campus Water Management</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand" data-go="home">💧 AquaConnect</div>
+  <button class="burger" id="burger" aria-label="Menu">☰</button>
+  <nav id="nav">
+    <a data-go="home">Home</a>
+    <a data-go="find">Find Water</a>
+    <a data-go="bottle">Bottle Disposal</a>
+    <a data-go="report">Report Issue</a>
+    <a data-go="feedback">Feedback</a>
+    <a data-go="about">About Us</a>
+  </nav>
+  <div class="bell-wrap">
+    <button id="bell" title="Notifications">🔔<span id="bellCount" class="badge-dot hidden">0</span></button>
+    <div id="notifPanel" class="notif hidden"></div>
+  </div>
+</header>
+
+<main>
+
+<!-- ============ HOME ============ -->
+<section class="page active" id="page-home">
+  <div class="hero">
+    <h1>Stay hydrated. Keep campus clean.</h1>
+    <p>Find working water coolers, dispose of bottles responsibly and report problems in seconds.</p>
+    <div class="hero-stats" id="heroStats"></div>
+  </div>
+
+  <div class="cards3">
+    <div class="big-card" data-go="find">
+      <div class="icon">🚰</div>
+      <h2>Find Drinking Water</h2>
+      <ul><li>Search water points.</li><li>Find the nearest cooler.</li><li>Check availability.</li></ul>
+      <span class="btn">Find Water →</span>
+    </div>
+    <div class="big-card green" data-go="bottle">
+      <div class="icon">♻️</div>
+      <h2>Dispose Empty Bottles</h2>
+      <ul><li>Locate recycling bins.</li><li>Find collection points.</li><li>Report overflowing bins.</li></ul>
+      <span class="btn">Find Bins →</span>
+    </div>
+    <div class="big-card orange" data-go="report">
+      <div class="icon">🛠️</div>
+      <h2>Report Water Problems</h2>
+      <ul><li>Report leakage.</li><li>Report dirty water.</li><li>Report damaged coolers.</li></ul>
+      <span class="btn">Report Now →</span>
+    </div>
+  </div>
+
+  <h2 class="section-title">How it works – a student's journey</h2>
+  <div class="journey" id="journey"></div>
+
+  <h2 class="section-title">💡 Water Saving Tips</h2>
+  <div class="tips" id="tipsHome"></div>
+</section>
+
+<!-- ============ FIND WATER ============ -->
+<section class="page" id="page-find">
+  <h1 class="page-title">Find Water</h1>
+  <div class="toolbar">
+    <label>I am in
+      <select id="myBlock"></select>
+    </label>
+    <input id="wpSearch" type="search" placeholder="Search water points, blocks...">
+    <select id="wpFilter">
+      <option value="all">All status</option>
+      <option value="working">Working</option>
+      <option value="notworking">Not Working</option>
+      <option value="maintenance">Under Maintenance</option>
+    </select>
+    <label class="check"><input type="checkbox" id="heatToggle"> Availability heatmap</label>
+    <button class="btn" id="nearestBtn">📍 Nearest available water</button>
+  </div>
+
+  <div class="find-grid">
+    <div>
+      <div class="map-box"><div id="map-find"></div>
+        <div class="legend">
+          <span><i class="dot working"></i> Working</span>
+          <span><i class="dot notworking"></i> Not working</span>
+          <span><i class="dot maintenance"></i> Maintenance</span>
+          <span><i class="dot you"></i> You are here</span>
+        </div>
+      </div>
+      <div id="routeInfo" class="route-info hidden"></div>
+    </div>
+    <div>
+      <div id="wpDetail" class="panel"><p class="muted">Click a water point on the map or in the list to see details.</p></div>
+      <div id="wpList" class="list"></div>
+    </div>
+  </div>
+
+  <h2 class="section-title">Facilities in each block</h2>
+  <div class="table-wrap"><table id="blockTable"></table></div>
+</section>
+
+<!-- ============ BOTTLE ============ -->
+<section class="page" id="page-bottle">
+  <h1 class="page-title">Bottle Disposal &amp; Recycling</h1>
+  <div class="toolbar">
+    <label>I am in <select id="myBlock2"></select></label>
+    <button class="btn green" id="nearestBinBtn">♻️ Nearest bin</button>
+  </div>
+  <div class="find-grid">
+    <div>
+      <div class="map-box"><div id="map-bottle"></div>
+        <div class="legend">
+          <span><i class="dot bin-ok"></i> Bin OK</span>
+          <span><i class="dot bin-half"></i> Half full</span>
+          <span><i class="dot bin-full"></i> Full / overflowing</span>
+        </div>
+      </div>
+      <div id="routeInfo2" class="route-info hidden"></div>
+    </div>
+    <div>
+      <div id="binList" class="list"></div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div class="panel">
+      <h3>🌱 Eco Points</h3>
+      <p class="muted">Recycled bottles today? Earn 2 points per bottle.</p>
+      <form id="ecoForm" class="form-inline">
+        <input id="ecoName" placeholder="Your name" required>
+        <input id="ecoCount" type="number" min="1" max="50" placeholder="Bottles" required>
+        <button class="btn green">Add points</button>
+      </form>
+    </div>
+    <div class="panel">
+      <h3>🏆 Eco Leaderboard</h3>
+      <ol id="ecoBoard" class="board"></ol>
+    </div>
+  </div>
+</section>
+
+<!-- ============ REPORT ============ -->
+<section class="page" id="page-report">
+  <h1 class="page-title">Report an Issue</h1>
+  <div class="two-col">
+    <div class="panel">
+      <h3>Submit a complaint</h3>
+      <form id="reportForm">
+        <label>Problem type
+          <select id="rType" required>
+            <option value="damaged">Damaged water cooler</option>
+            <option value="leak">Water leakage</option>
+            <option value="dirty">Dirty drinking water facility</option>
+            <option value="nosupply">No water supply</option>
+            <option value="tap">Tap left running (water waste)</option>
+            <option value="bin">Overflowing bottle bin</option>
+          </select>
+        </label>
+        <label>Location
+          <select id="rLocation" required></select>
+        </label>
+        <label>Your name (optional)
+          <input id="rName" placeholder="e.g. Piyush">
+        </label>
+        <label>Description
+          <textarea id="rDesc" rows="3" placeholder="Describe what's wrong..."></textarea>
+        </label>
+        <label>Upload photo (optional)
+          <input type="file" id="rPhoto" accept="image/*">
+        </label>
+        <img id="rPreview" class="preview hidden" alt="Photo preview">
+        <button class="btn orange full">Submit complaint</button>
+      </form>
+      <div id="reportResult" class="result hidden"></div>
+    </div>
+
+    <div class="panel">
+      <h3>Track complaint status</h3>
+      <form id="trackForm" class="form-inline">
+        <input id="trackId" placeholder="Complaint ID e.g. AQ-1107-4821" required>
+        <button class="btn">Track</button>
+      </form>
+      <div id="trackResult"></div>
+      <hr>
+      <h3>Priority guide</h3>
+      <p class="muted small">🔴 High – no water, leakage, dirty water &nbsp; 🟠 Medium – damaged cooler, overflowing bin &nbsp; 🟡 Low – tap left running</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FEEDBACK ============ -->
+<section class="page" id="page-feedback">
+  <h1 class="page-title">Water Quality Feedback</h1>
+  <div class="two-col">
+    <div class="panel">
+      <form id="fbForm">
+        <label>Water point <select id="fbWp"></select></label>
+        <label>Overall rating
+          <div class="stars-input" id="fbStars"></div>
+        </label>
+        <label>Cleanliness
+          <select id="fbClean"><option>Very clean</option><option>Clean</option><option>Average</option><option>Dirty</option></select>
+        </label>
+        <label>Taste / smell
+          <select id="fbTaste"><option>Fresh</option><option>Normal</option><option>Odd taste</option><option>Bad smell</option></select>
+        </label>
+        <label>Comments
+          <textarea id="fbText" rows="3" placeholder="Anything else?"></textarea>
+        </label>
+        <button class="btn full">Submit feedback</button>
+      </form>
+    </div>
+    <div class="panel">
+      <h3>Recent feedback</h3>
+      <div id="fbList"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ABOUT ============ -->
+<section class="page" id="page-about">
+  <h1 class="page-title">About AquaConnect</h1>
+  <div class="panel">
+    <p>AquaConnect is a smart campus water-management website. It helps students find working drinking water, dispose of plastic bottles responsibly, and report problems that college management can fix quickly.</p>
+  </div>
+  <h2 class="section-title">Features</h2>
+  <div class="table-wrap"><table>
+    <tr><th>Feature</th><th>Description</th></tr>
+    <tr><td>Water Point Locator</td><td>Find nearby drinking water facilities.</td></tr>
+    <tr><td>QR Code Reporting</td><td>Scan a QR code on a cooler to report problems.</td></tr>
+    <tr><td>Live Status</td><td>Working, Not Working or Under Maintenance.</td></tr>
+    <tr><td>Bottle Recycling Locator</td><td>Find the nearest plastic bottle collection bin.</td></tr>
+    <tr><td>Water Quality Feedback</td><td>Submit feedback about cleanliness.</td></tr>
+    <tr><td>Complaint Tracking</td><td>Pending, In Progress and Resolved.</td></tr>
+    <tr><td>Smart Notifications</td><td>Notified when your reported problem is resolved.</td></tr>
+    <tr><td>Water Saving Tips</td><td>Suggestions for avoiding water wastage.</td></tr>
+    <tr><td>Admin Dashboard</td><td>College management can manage complaints.</td></tr>
+    <tr><td>Rating System</td><td>Students rate water facilities.</td></tr>
+    <tr><td>Crowd-Based Updates</td><td>Students confirm whether a point is working.</td></tr>
+    <tr><td>Smart Route Suggestions</td><td>Nearest available point from your block.</td></tr>
+    <tr><td>Maintenance Priority</td><td>Urgent issues get higher priority.</td></tr>
+    <tr><td>Eco Points</td><td>Points for responsible bottle recycling.</td></tr>
+    <tr><td>Availability Heatmap</td><td>See where working water points are scarce.</td></tr>
+    <tr><td>Digital Complaint ID</td><td>Unique ID for every complaint.</td></tr>
+  </table></div>
+  <h2 class="section-title">Technology</h2>
+  <div class="table-wrap"><table>
+    <tr><th>Technology</th><th>Purpose</th></tr>
+    <tr><td>HTML</td><td>Website structure</td></tr>
+    <tr><td>CSS</td><td>Website design</td></tr>
+    <tr><td>JavaScript</td><td>Search, filters and interactions</td></tr>
+    <tr><td>Google Maps API</td><td>Water-point location (this demo uses a built-in SVG campus map)</td></tr>
+    <tr><td>Firebase</td><td>Store complaints and user information (this demo uses browser localStorage)</td></tr>
+  </table></div>
+  <h2 class="section-title">💡 Water Saving Tips</h2>
+  <div class="tips" id="tipsAbout"></div>
+</section>
+
+<!-- ============ ADMIN ============ -->
+<section class="page" id="page-admin">
+  <h1 class="page-title">Admin Dashboard</h1>
+  <div id="adminBody"></div>
+</section>
+
+</main>
+
+<footer>
+  <span>© 2026 AquaConnect • Smart Campus Water Management</span>
+  <a data-go="admin">Admin login</a>
+</footer>
+
+<div id="toast" class="toast hidden"></div>
+<script src="app.js"></script>
+</body>
+</html>
